@@ -1,0 +1,31 @@
+FROM ubuntu:22.04
+
+# Create a user and group with a specific UID and GID
+RUN groupadd -r kraghavan && useradd -r -g kraghavan -d /home/kraghavan -s /bin/bash -c "Docker image user" kraghavan
+
+# Create the home directory for the user
+RUN mkdir -p /home/kraghavan && chown -R kraghavan:kraghavan /home/kraghavan
+
+# Update and install necessary packages
+RUN apt-get update && apt-get install -y git curl wget python3-pip
+
+# Install memory_profiler
+RUN pip3 install memory_profiler
+
+# Set the working directory to /home/kraghavan
+WORKDIR /home/kraghavan
+
+# Copy the output file with 15 million lines into the home directory
+COPY output.txt /home/kraghavan/output.txt
+
+# Copy the Python script into the home directory
+COPY sorter.py /home/kraghavan/sorter.py
+
+# Change to the created user
+USER kraghavan
+
+# Use memory_profiler to record the memory used by the Python script before and after running the sort command
+# python sorter.py --logfile custom_log.log --outputfile custom_output.txt
+#CMD ["sh", "-c", "python3", "-m", "memory_profiler", "/home/kraghavan/sorter.py"]
+#CMD ["sh", "-c", "python3 /home/kraghavan/sorter.py", "--logfile", "${LOG_FILE}", "--outputfile", "${OUTPUT_FILE}"]
+CMD ["sleep", "infinity"]

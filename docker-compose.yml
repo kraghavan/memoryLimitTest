@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  # sorter-u20:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.ubuntu20
+  #   image: sorter-image-u20
+  #   env_file: "docker_ubuntu20.env"
+  #   volumes:
+  #     - /Users/kraghavan/KarthikaRepo/PycharmProjects/memoryLimitTest:/home/kraghavan
+
+  sorter-u22:
+    build:
+      context: .
+      dockerfile: Dockerfile.ubuntu22
+    image: sorter-image-u22
+    env_file: "docker_ubuntu22.env"
+    volumes:
+      - /Users/kraghavan/KarthikaRepo/PycharmProjects/memoryLimitTest:/home/kraghavan
