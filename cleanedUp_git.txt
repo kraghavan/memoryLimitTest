@@ -1,0 +1,27 @@
+echo "output_8million.txt" >> .gitignore
+echo "output.txt" >> .gitignore
+echo "custom_output_ubuntu22_parallel.txt" >> .gitignore
+echo "custom_output_ubuntu20_parallel.txt" >> .gitignore
+echo "output_2.txt" >> .gitignore
+echo "custom_log_ubuntu20_parallel.log" >> .gitignore
+echo "custom_log_ubuntu22_parallel.log" >> .gitignore
+echo "output_1.txt" >> .gitignore
+
+git rm --cached output_8million.txt
+git rm --cached output.txt
+git rm --cached custom_output_ubuntu22_parallel.txt
+git rm --cached custom_output_ubuntu20_parallel.txt
+git rm --cached output_2.txt
+git rm --cached "custom_log_ubuntu20_parallel.log"
+git rm --cached "custom_log_ubuntu22_parallel.log"
+git rm --cached output_1.txt
+
+git add .gitignore
+git commit -m "Update .gitignore to ignore large files"
+
+git filter-branch --force --index-filter \
+  'git rm --cached --ignore-unmatch output_8million.txt output.txt custom_output_ubuntu22_parallel.txt custom_output_ubuntu20_parallel.txt output_2.txt "custom_log_ubuntu20_parallel.log" "custom_log_ubuntu22_parallel.log" output_1.txt' \
+  --prune-empty --tag-name-filter cat -- --all
+
+git push origin --force --all
+git push origin --force --tags
